@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airline Agent App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 50%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    button {
+      padding: 5px 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>URL Table</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Airlines & Consolidators</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="url-cell" url="https://ngtestadmin.aos-dev.com">Ng Test Admin</td>
+        <td><button class="redirect-btn">Login</button></td>
+      </tr>
+      <tr>
+        <td class="url-cell" url="https://www.goindigo.in/agent.html">Indigo</td>
+        <td><button class="redirect-btn">Login</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const buttons = document.querySelectorAll('.redirect-btn');
+      buttons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          const row = event.target.closest('tr');
+          const url = row.querySelector('.url-cell').getAttribute('url');
+
+          // Credentials to autofill
+          const credentials = {
+            email: 'faiz@infohybrid.com',
+            password: 'Numan@2911'
+          };
+
+          console.log(`URL to open in app: ${url}`);
+          if (window.electronAPI && typeof window.electronAPI.openInApp === 'function') {
+            window.electronAPI.openInApp(url, credentials);
+          } else {
+            console.error('electronAPI or openInApp function is undefined');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "name": "airline-agent-app",
+  "version": "1.0.0",
+  "description": "Airline agent app",
+  "license": "ISC",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "build": {
+    "compression": "maximum",
+    "appId": "com.airlineagentapp",
+    "productName": "AirlineAgentApp",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "airlines.js",
+      "index.html",
+      "package.json",
+      "scripts/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.1.2",
+    "puppeteer-core": "^23.9.0",
+    "puppeteer-in-electron": "^3.0.5"
+  }
+}
