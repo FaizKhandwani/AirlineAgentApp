@@ -3,6 +3,12 @@ const path = require('path');
 const fs = require('fs');
 const puppeteer = require('puppeteer-core');
 const pie = require("puppeteer-in-electron");
+const { autoUpdater } = require('electron-updater');
+const log = require('electron-log');
+
+autoUpdater.logger = log;
+autoUpdater.logger.transports.file.level = 'info';
+log.info('App starting...');
 
 let mainWindow;
 
@@ -18,7 +24,45 @@ function createMainWindow() {
   });
   mainWindow.maximize();
   mainWindow.loadFile('index.html');
+  autoUpdater.checkForUpdatesAndNotify();
 }
+
+
+// Listen to update events
+autoUpdater.on('update-available', () => {
+  log.info('Update available.');
+  mainWindow.webContents.send('update-available');
+});
+
+autoUpdater.on('update-downloaded', () => {
+  log.info('Update downloaded.');
+
+  const dialogOpts = {
+    type: 'info',
+    buttons: ['Restart', 'Later'],
+    title: 'Application Update',
+    message: 'A new version has been downloaded. Restart the application to apply the updates.',
+  };
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall();
+  });
+});
+
+autoUpdater.on('error', (error) => {
+  log.error(`Error in auto-updater: ${error}`);
+});
+
+autoUpdater.on('checking-for-update', () => {
+  log.info('Checking for update...');
+});
+
+autoUpdater.on('update-not-available', () => {
+  log.info('Update not available.');
+});
+
+
+
 (async () => {
   await pie.initialize(app);
   const browser = await pie.connect(app, puppeteer);

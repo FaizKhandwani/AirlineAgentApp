@@ -12,6 +12,11 @@
     "compression": "maximum",
     "appId": "com.airlineagentapp",
     "productName": "AirlineAgentApp",
+    "publish": {
+      "provider": "github",
+      "owner": "FaizKhandwani",
+      "repo": "AirlineAgentApp"
+    },
     "directories": {
       "output": "dist"
     },
@@ -34,6 +39,8 @@
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
+    "electron-log": "^5.2.2",
+    "electron-updater": "^6.3.9",
     "puppeteer-core": "^23.9.0",
     "puppeteer-in-electron": "^3.0.5"
   }
